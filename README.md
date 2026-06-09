@@ -17,9 +17,9 @@ Built without LLMs or AI APIs. Every correlation, timeline reconstruction, and I
 
 ## Demo
 
-[![Chronos Demo](docs/screenshots/chronos-dashboard-incident-overview.png)](docs/chronos-demo-video.mp4)
+[![Chronos Demo](docs/screenshots/chronos-dashboard-incident-overview.png)](https://youtu.be/N0jgYcw8pX8)
 
-> Click the image above to watch the full demo video, or [download it directly](docs/chronos-demo-video.mp4).
+> Click the image above to watch the full demo on YouTube.
 
 ---
 
