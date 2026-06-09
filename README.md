@@ -104,10 +104,10 @@ Chronos Platform (Flask :5000)
 
 | View | Description |
 |---|---|
-| ![Dashboard](docs/screenshots/dashboard.png) | Main incident overview with live stats |
-| ![Incident](docs/screenshots/incident.png) | Timeline reconstruction with ATT&CK mapping |
-| ![Alerts](docs/screenshots/alerts.png) | Raw alert feed with severity classification |
-| ![IOCs](docs/screenshots/iocs.png) | Extracted indicators of compromise |
+| ![Dashboard](screenshots/dashboard.png) | Main incident overview with live stats |
+| ![Incident](screenshots/incident.png) | Timeline reconstruction with ATT&CK mapping |
+| ![Alerts](screenshots/alerts.png) | Raw alert feed with severity classification |
+| ![IOCs](screenshots/iocs.png) | Extracted indicators of compromise |
 
 ---
 
