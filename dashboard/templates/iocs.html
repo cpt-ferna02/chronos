@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}IOCs{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-header"><i class="bi bi-shield-exclamation me-2"></i>Indicators of Compromise <span class="badge bg-secondary ms-2">{{ iocs|length }}</span></div>
+  <div class="card-body p-0">
+    <table class="table mb-0" style="font-size:.83rem;">
+      <thead><tr><th>Type</th><th>Value</th><th>Incident</th><th>Severity</th><th>Hits</th><th>First Seen</th><th>Last Seen</th><th>Notes</th></tr></thead>
+      <tbody>
+      {% for ioc in iocs %}
+      <tr>
+        <td><span class="badge bg-secondary">{{ ioc.ioc_type }}</span></td>
+        <td class="ioc-value">{{ ioc.value }}</td>
+        <td><a href="/incident/{{ ioc.incident_id }}">{{ ioc.incident_name }}</a></td>
+        <td>
+          {% if ioc.severity == 'critical' %}<span class="badge badge-critical">CRITICAL</span>
+          {% elif ioc.severity == 'high' %}<span class="badge badge-high">HIGH</span>
+          {% elif ioc.severity == 'medium' %}<span class="badge badge-medium">MEDIUM</span>
+          {% else %}<span class="badge badge-low">LOW</span>{% endif %}
+        </td>
+        <td>{{ ioc.hit_count }}</td>
+        <td class="text-muted" style="white-space:nowrap;">{{ ioc.first_seen.strftime('%Y-%m-%d %H:%M') if ioc.first_seen else '' }}</td>
+        <td class="text-muted" style="white-space:nowrap;">{{ ioc.last_seen.strftime('%Y-%m-%d %H:%M') if ioc.last_seen else '' }}</td>
+        <td class="text-muted">{{ ioc.notes or '' }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="8" class="text-center text-muted py-4">No IOCs yet.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

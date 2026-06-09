@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}{{ inc.name }}{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center gap-3 mb-4">
+  <a href="/" class="text-muted"><i class="bi bi-chevron-left"></i> Dashboard</a>
+  <h4 class="mb-0">{{ inc.name }}</h4>
+  {% if inc.severity == 'critical' %}<span class="badge badge-critical">CRITICAL</span>
+  {% elif inc.severity == 'high' %}<span class="badge badge-high">HIGH</span>
+  {% elif inc.severity == 'medium' %}<span class="badge badge-medium">MEDIUM</span>
+  {% else %}<span class="badge badge-low">LOW</span>{% endif %}
+  <span class="badge bg-secondary ms-1">{{ inc.status }}</span>
+</div>
+{% if inc.description %}<p class="text-muted mb-4">{{ inc.description }}</p>{% endif %}
+<div class="row g-4">
+  <div class="col-lg-7">
+    <div class="card h-100">
+      <div class="card-header"><i class="bi bi-clock-history me-2"></i>Attack Timeline</div>
+      <div class="card-body" style="overflow-y:auto;max-height:520px;">
+        {% for e in timeline %}
+        <div class="timeline-item {% if e.is_pivot %}pivot{% endif %}">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <span class="event-type">{{ e.event_type }}</span>
+              {% if e.mitre_technique %}<span class="mitre-badge ms-2">{{ e.mitre_technique }}</span>{% endif %}
+              {% if e.is_pivot %}<span class="badge bg-danger ms-1" style="font-size:.65rem;">PIVOT</span>{% endif %}
+            </div>
+            <span class="text-muted" style="font-size:.75rem;white-space:nowrap;">
+              {{ e.event_time.strftime('%H:%M:%S') if e.event_time else '' }}
+            </span>
+          </div>
+          <div class="event-desc">{{ e.description }}</div>
+          {% if e.confidence %}<div class="event-conf">conf: {{ e.confidence }}</div>{% endif %}
+        </div>
+        {% else %}
+        <p class="text-muted text-center py-4">No timeline events.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-5 d-flex flex-column gap-4">
+    <div class="card">
+      <div class="card-header"><i class="bi bi-diagram-3 me-2"></i>MITRE ATT&CK</div>
+      <div class="card-body p-0">
+        <table class="table mb-0" style="font-size:.85rem;">
+          <thead><tr><th>Technique</th><th>Events</th><th>Pivots</th></tr></thead>
+          <tbody>
+          {% for m in mitre %}
+          <tr>
+            <td><span class="mitre-badge">{{ m.mitre_technique }}</span></td>
+            <td>{{ m.count }}</td>
+            <td>{% if m.pivot_count %}<span class="text-danger">{{ m.pivot_count }}</span>{% else %}--{% endif %}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="3" class="text-muted text-center py-3">No techniques mapped.</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><i class="bi bi-shield-exclamation me-2"></i>Indicators of Compromise</div>
+      <div class="card-body p-0" style="overflow-y:auto;max-height:240px;">
+        <table class="table mb-0" style="font-size:.82rem;">
+          <thead><tr><th>Type</th><th>Value</th><th>Hits</th></tr></thead>
+          <tbody>
+          {% for ioc in iocs %}
+          <tr>
+            <td><span class="badge bg-secondary">{{ ioc.ioc_type }}</span></td>
+            <td class="ioc-value">{{ ioc.value }}</td>
+            <td>{{ ioc.hit_count }}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="3" class="text-muted text-center py-3">No IOCs extracted.</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><i class="bi bi-hdd-network me-2"></i>Affected Hosts</div>
+      <div class="card-body p-0">
+        <table class="table mb-0" style="font-size:.85rem;">
+          <thead><tr><th>Agent</th><th>ID</th><th>Alerts</th></tr></thead>
+          <tbody>
+          {% for a in agents %}
+          <tr>
+            <td>{{ a.agent_name }}</td>
+            <td class="text-muted">{{ a.agent_id }}</td>
+            <td>{{ a.alert_count }}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="3" class="text-muted text-center py-3">No agents.</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

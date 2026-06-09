@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Alerts{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-header"><i class="bi bi-bell me-2"></i>Raw Alerts <span class="badge bg-secondary ms-2">{{ alerts|length }}</span></div>
+  <div class="card-body p-0">
+    <table class="table mb-0" style="font-size:.83rem;">
+      <thead><tr><th>Time</th><th>Agent</th><th>Rule</th><th>Level</th><th>Description</th><th>MITRE</th></tr></thead>
+      <tbody>
+      {% for a in alerts %}
+      <tr>
+        <td class="text-muted" style="white-space:nowrap;">{{ a.event_time.strftime('%Y-%m-%d %H:%M:%S') if a.event_time else '' }}</td>
+        <td>{{ a.agent_name }}</td>
+        <td class="text-muted">{{ a.rule_id }}</td>
+        <td>
+          {% if a.rule_level >= 12 %}<span class="badge badge-critical">{{ a.rule_level }}</span>
+          {% elif a.rule_level >= 9 %}<span class="badge badge-high">{{ a.rule_level }}</span>
+          {% elif a.rule_level >= 6 %}<span class="badge badge-medium">{{ a.rule_level }}</span>
+          {% else %}<span class="badge bg-secondary">{{ a.rule_level }}</span>{% endif %}
+        </td>
+        <td>{{ a.rule_desc }}</td>
+        <td>{% if a.mitre_id %}<span class="mitre-badge">{{ a.mitre_id }}</span>{% else %}--{% endif %}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="6" class="text-center text-muted py-4">No alerts.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

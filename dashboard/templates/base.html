@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chronos - {% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    *{box-sizing:border-box}
+    body{background:#080c10;color:#a0aab8;font-family:'Segoe UI',system-ui,sans-serif;font-size:14px}
+    /* navbar */
+    .navbar{background:#0b0f14!important;border-bottom:1px solid #1a2332;padding:.6rem 0}
+    .navbar-brand{color:#00d4ff!important;font-weight:800;font-size:1rem;letter-spacing:3px;text-transform:uppercase}
+    .navbar-brand i{color:#00d4ff}
+    .nav-link{color:#4a5568!important;font-size:.8rem;letter-spacing:.05em;text-transform:uppercase;padding:.4rem .8rem!important}
+    .nav-link:hover{color:#00d4ff!important;background:rgba(0,212,255,.05);border-radius:4px}
+    /* cards */
+    .card{background:#0b0f14;border:1px solid #1a2332;border-radius:6px}
+    .card-header{background:#0d1219;border-bottom:1px solid #1a2332;font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:#6b7280;padding:.7rem 1rem}
+    .card-body{padding:1rem}
+    /* stat cards */
+    .stat-card{border:1px solid #1a2332;border-top:2px solid #00d4ff;background:#0b0f14;border-radius:6px;padding:1.2rem}
+    .stat-card.orange{border-top-color:#ff6b35}
+    .stat-card.yellow{border-top-color:#ffd700}
+    .stat-card.green{border-top-color:#00ff88}
+    .stat-card.gray{border-top-color:#4a5568}
+    .stat-number{font-size:1.9rem;font-weight:800;color:#00d4ff;line-height:1;font-variant-numeric:tabular-nums}
+    .stat-card.orange .stat-number{color:#ff6b35}
+    .stat-card.yellow .stat-number{color:#ffd700}
+    .stat-card.green .stat-number{color:#00ff88}
+    .stat-card.gray .stat-number{color:#4a5568}
+    .stat-label{font-size:.68rem;color:#4a5568;text-transform:uppercase;letter-spacing:.1em;margin-top:.3rem}
+    /* tables */
+    .table{color:#8892a0;margin:0;font-size:.82rem}
+    .table thead th{background:#0d1219;border-bottom:1px solid #1a2332;border-top:none;color:#3d4f63;font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;font-weight:600;padding:.6rem 1rem}
+    .table tbody td{border-top:1px solid #111820;border-bottom:none;padding:.65rem 1rem;vertical-align:middle;color:#8892a0}
+    .table tbody tr{transition:background .15s}
+    .table tbody tr:hover{background:#0d1523}
+    .table tbody tr:hover td{color:#c0cad8}
+    /* badges */
+    .badge{font-size:.65rem;font-weight:700;letter-spacing:.06em;padding:3px 7px;border-radius:3px}
+    .badge-critical{background:#3d0f0f;color:#ff4444;border:1px solid #5a1515}
+    .badge-high{background:#3d2a00;color:#ffa500;border:1px solid #5a3f00}
+    .badge-medium{background:#0a1f3d;color:#4499ff;border:1px solid #0f2f5a}
+    .badge-low{background:#0a2a1a;color:#00cc66;border:1px solid #0f3f28}
+    .badge.bg-secondary{background:#1a2332!important;color:#4a5568;border:1px solid #243040}
+    /* mitre */
+    .mitre-badge{font-size:.68rem;font-family:'Courier New',monospace;background:#001a33;color:#0099cc;border:1px solid #003355;border-radius:3px;padding:2px 7px;white-space:nowrap}
+    /* ioc */
+    .ioc-value{font-family:'Courier New',monospace;font-size:.78rem;color:#7ab8cc}
+    /* timeline */
+    .timeline-item{position:relative;padding-left:1.8rem;border-left:1px solid #1a2332;margin-bottom:1.2rem;padding-bottom:.2rem}
+    .timeline-item::before{content:'';position:absolute;left:-4px;top:5px;width:7px;height:7px;border-radius:50%;background:#1a2332;border:1px solid #2a3f55}
+    .timeline-item.pivot::before{background:#ff4444;border-color:#ff4444;box-shadow:0 0 8px rgba(255,68,68,.5)}
+    .timeline-item.pivot{border-left-color:#2a1515}
+    .timeline-item .event-type{color:#c0cad8;font-size:.85rem;font-weight:600}
+    .timeline-item .event-desc{color:#5a6878;font-size:.78rem;margin-top:.2rem;line-height:1.4}
+    .timeline-item .event-time{color:#2a3f55;font-size:.72rem;font-family:monospace}
+    .timeline-item .event-conf{color:#2a3f55;font-size:.68rem;margin-top:.2rem}
+    /* links */
+    a{color:#0099cc;text-decoration:none}
+    a:hover{color:#00d4ff}
+    /* buttons */
+    .btn-outline-secondary{border-color:#1a2332;color:#4a5568;font-size:.75rem;padding:3px 10px}
+    .btn-outline-secondary:hover{background:#1a2332;border-color:#243040;color:#8892a0}
+    /* misc */
+    h4{color:#c0cad8;font-weight:700}
+    h5{color:#8892a0}
+    .text-muted{color:#3d4f63!important}
+    .text-danger{color:#ff4444!important}
+    .text-success{color:#00ff88!important}
+    ::-webkit-scrollbar{width:4px;height:4px}
+    ::-webkit-scrollbar-track{background:#080c10}
+    ::-webkit-scrollbar-thumb{background:#1a2332;border-radius:2px}
+    ::-webkit-scrollbar-thumb:hover{background:#243040}
+    .table>:not(caption)>*>*{background-color:transparent!important;color:#8892a0}
+    .table-striped>tbody>tr:nth-of-type(odd)>*{background-color:transparent!important}
+    tbody,td,tfoot,th,thead,tr{border-color:#111820!important;background-color:transparent!important}
+    .table tbody tr:hover>td{background-color:#0d1523!important;color:#c0cad8!important}
+    .table>:not(caption)>*>*{background-color:transparent!important;color:#8892a0}
+    .table-striped>tbody>tr:nth-of-type(odd)>*{background-color:transparent!important}
+    tbody,td,tfoot,th,thead,tr{border-color:#111820!important;background-color:transparent!important}
+    .table tbody tr:hover>td{background-color:#0d1523!important;color:#c0cad8!important}
+  </style>
+  {% block head %}{% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand" href="/"><i class="bi bi-clock-history me-2"></i>CHRONOS</a>
+    <div class="navbar-nav ms-4">
+      <a class="nav-link" href="/"><i class="bi bi-speedometer2 me-1"></i>Dashboard</a>
+      <a class="nav-link" href="/alerts"><i class="bi bi-bell me-1"></i>Alerts</a>
+      <a class="nav-link" href="/iocs"><i class="bi bi-shield-exclamation me-1"></i>IOCs</a>
+    </div>
+    <span class="ms-auto text-muted" style="font-size:.75rem;">
+      <i class="bi bi-circle-fill text-success me-1" style="font-size:.5rem;"></i>Live
+    </span>
+  </div>
+</nav>
+<div class="container-fluid px-4 py-4">
+  {% block content %}{% endblock %}
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

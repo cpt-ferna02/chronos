@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="row g-3 mb-4">
+  {% set s = stats %}
+  <div class="col-6 col-md-2">
+    <div class="card stat-card p-3">
+      <div class="stat-number">{{ s.total_incidents }}</div>
+      <div class="stat-label">Incidents</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-2">
+    <div class="card stat-card p-3" style="border-color:#f78166">
+      <div class="stat-number" style="color:#f78166">{{ s.total_pivots }}</div>
+      <div class="stat-label">Pivot Events</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-2">
+    <div class="card stat-card p-3" style="border-color:#d29922">
+      <div class="stat-number" style="color:#d29922">{{ s.total_alerts }}</div>
+      <div class="stat-label">Raw Alerts</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-2">
+    <div class="card stat-card p-3" style="border-color:#3fb950">
+      <div class="stat-number" style="color:#3fb950">{{ s.total_iocs }}</div>
+      <div class="stat-label">IOCs</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-2">
+    <div class="card stat-card p-3" style="border-color:#8b949e">
+      <div class="stat-number" style="color:#8b949e">{{ s.process_events }}</div>
+      <div class="stat-label">Process Events</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-2">
+    <div class="card stat-card p-3" style="border-color:#8b949e">
+      <div class="stat-number" style="color:#8b949e">{{ s.file_events }}</div>
+      <div class="stat-label">File Events</div>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header d-flex align-items-center gap-2">
+    <i class="bi bi-fire text-danger"></i> Active Incidents
+  </div>
+  <div class="card-body p-0">
+    <table class="table mb-0">
+      <thead><tr><th>ID</th><th>Name</th><th>Severity</th><th>Status</th><th>Events</th><th>Created</th><th></th></tr></thead>
+      <tbody>
+      {% for i in incidents %}
+      <tr>
+        <td class="text-muted">#{{ i.id }}</td>
+        <td><a href="/incident/{{ i.id }}">{{ i.name }}</a></td>
+        <td>
+          {% if i.severity == 'critical' %}<span class="badge badge-critical">CRITICAL</span>
+          {% elif i.severity == 'high' %}<span class="badge badge-high">HIGH</span>
+          {% elif i.severity == 'medium' %}<span class="badge badge-medium">MEDIUM</span>
+          {% else %}<span class="badge badge-low">LOW</span>{% endif %}
+        </td>
+        <td><span class="badge bg-secondary">{{ i.status }}</span></td>
+        <td>{{ i.event_count }}</td>
+        <td class="text-muted" style="font-size:.85rem;">{{ i.created_at.strftime('%Y-%m-%d %H:%M') if i.created_at else '' }}</td>
+        <td><a href="/incident/{{ i.id }}" class="btn btn-sm btn-outline-secondary">Investigate <i class="bi bi-arrow-right"></i></a></td>
+      </tr>
+      {% else %}
+      <tr><td colspan="7" class="text-center text-muted py-4">No incidents yet.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
