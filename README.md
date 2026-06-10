@@ -170,6 +170,7 @@ Every correlation, every timeline reconstruction, every IOC extraction is determ
 
 ## Author
 
-**Fernando** — Cybersecurity student specializing in Detection Engineering, SOC Operations, and DFIR.
+**Fernando Cortez Jr.** — Cybersecurity student specializing in Security Engineering, 
+SOC Operations, and DFIR.
 
-> *"This student can investigate intrusions, reconstruct attack timelines, correlate telemetry, understand ATT&CK, and build security tooling that resembles what real SOC and DFIR teams use."*
+[GitHub](https://github.com/cpt-ferna02) · [LinkedIn](https://linkedin.com/in/fernando-cortezjr-a3529a313)
